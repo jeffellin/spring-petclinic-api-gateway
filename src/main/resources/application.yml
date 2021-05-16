@@ -1,18 +1,6 @@
 spring:
   application:
     name: travel-spring-cloud-gateway
-  security:
-    oauth2:
-      client:
-        provider:
-          keycloak:
-            issuer-uri: http://34.67.109.227:8080/auth/realms/spring-cloud-gateway-realm
-            user-name-attribute: preferred_username
-        registration:
-          keycloak:
-            client-id: spring-cloud-gateway-client
-            client-secret: db9e6bdf-ef7f-48dc-8ab1-c4b6e582579b
-
   cloud:
     gateway:
       routes:
@@ -22,14 +10,12 @@ spring:
             - Path=/httpbin/**
           filters:
             - StripPrefix=1
-            - TokenRelay
         - id: vets-service
           uri: http://vets-service:8080
           predicates:
            - Path=/api/vet/**
           filters:
            - StripPrefix=2
-           - TokenRelay
         - id: visits-service
           uri: http://visits-service:8080
           predicates:
@@ -46,8 +32,6 @@ spring:
           uri: http://httpbin-service:8080
           predicates:
             - Path=/get/**
-          filters:
-            - TokenRelay
 logging:
   level:
     org:

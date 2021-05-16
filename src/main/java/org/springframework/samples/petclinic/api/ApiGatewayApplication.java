@@ -29,10 +29,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.annotation.*;
-import org.springframework.security.oauth2.client.*;
-import org.springframework.security.oauth2.client.annotation.*;
-import org.springframework.security.oauth2.core.oidc.user.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -82,18 +78,6 @@ public class ApiGatewayApplication {
             .andRoute(RequestPredicates.GET("/"),
                 request -> ServerResponse.ok().contentType(MediaType.TEXT_HTML).bodyValue(indexHtml));
         return router;
-    }
-
-    @GetMapping("/whoami")
-    @ResponseBody
-    public Map<String, Object> index(
-        @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient,
-        @AuthenticationPrincipal OidcUser oidcUser) {
-        Map<String, Object> model = new HashMap<>();
-        model.put("clientName", authorizedClient.getClientRegistration().getClientName());
-        model.put("userName", oidcUser.getName());
-        model.put("userAttributes", oidcUser.getAttributes());
-        return model;
     }
 
     /**
